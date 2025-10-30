@@ -1,5 +1,4 @@
 // Affichage des travaux dans la galerie
-
 async function showWorks() {
     try {
         const reponse = await fetch('http://localhost:5678/api/works');
@@ -32,7 +31,6 @@ async function showWorks() {
 showWorks();
 
 // Filtrage des travaux par catégorie
-
 async function categoriesFilters() {
     try {
         const categoriesResponse =await fetch ('http://localhost:5678/api/categories');
@@ -61,7 +59,13 @@ async function categoriesFilters() {
         console.error("Erreur lors du chargement des catégories :", error.message);
     }       
 }
-
 // Appel de la fonction pour afficher les filtres de catégories au chargement de la page
 categoriesFilters();
 
+// Gestion des filtres de catégories
+// function filterWorksByCategory(categoryId) {
+//     const  = document.querySelectorAll(".");
+// document.addEventListener("click", async (event) => {
+    
+//     }
+// });
