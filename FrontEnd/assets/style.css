@@ -46,19 +46,21 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 /** end reset css**/
+
 body {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+/** Header **/
+
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
-}
-section {
 	margin: 50px 0
 }
 
@@ -75,21 +77,15 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
-h2{
-	font-family: 'Syne';
-	font-weight: 700;
-	font-size: 30px;
-	color: #1D6154
-}
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -98,6 +94,22 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+/** Sections **/
+
+h2{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+	color: #1D6154;
+}
+
+section {
+	margin: 50px 0
+}
+
+/** Introduction **/
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -121,10 +133,40 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+/** Portfolio **/
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filters {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2em;
+	gap: 10px;
+}
+
+.filters button{
+	color: #1D6154;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	background-color: white;
+	height: 37px;
+	font-family: 'Syne';
+	font-size: 16px;
+	font-weight: 700;
+	min-width: 100px;
+}
+
+.filters .filtre-actif{
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -137,6 +179,9 @@ li:hover {
 	width: 100%;
 
 }
+
+/** Contact **/
+
 #contact {
 	width: 50%;
 margin: auto;
@@ -179,6 +224,8 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+
+/** Footer **/
 
 footer nav ul {
 	display: flex;

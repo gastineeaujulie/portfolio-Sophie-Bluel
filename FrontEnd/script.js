@@ -31,8 +31,9 @@ async function showWorks() {
 
     const filtersContainer = document.createElement("div");
     filtersContainer.classList.add("filters");
-    const portfolioSection = document.querySelector("#portfolio");
-    portfolioSection.insertBefore(filtersContainer, portfolioSection.firstChild);
+    const divGallery = document.querySelector(".gallery");
+    const portfolioSection = divGallery.parentNode;
+    portfolioSection.insertBefore(filtersContainer, divGallery);
 
     const boutonTous = document.createElement("button");
     boutonTous.textContent = "Tous";
