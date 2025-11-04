@@ -22,6 +22,8 @@ async function showWorks() {
             img.alt = work.title;
             caption.textContent = work.title;
 
+            
+
             figure.appendChild(img);
             figure.appendChild(caption);
             galerie.appendChild(figure);

@@ -68,7 +68,7 @@ header {
 h1{
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-around;
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
@@ -79,7 +79,7 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-weight: 400;
 	font-size:10px;
-	letter-spacing: 0.1em;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
 }
 
@@ -166,6 +166,7 @@ section {
 	margin-bottom: 1.5em;
 	width: 404px;
 	font-size: 14px;
+	font-weight: 400;
 }
 
 /** Portfolio **/
