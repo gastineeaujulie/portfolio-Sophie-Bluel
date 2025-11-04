@@ -108,14 +108,9 @@ li:hover, li a:hover {
 	text-decoration: none;
 }
 
-nav li  a img {
+nav img {
 	width: 19px;
 	height: 19px;
-}
-
-nav li a img:hover{
-	color: #000000;
-	font-weight: 700;
 }
 
 /** Main **/
