@@ -1,3 +1,7 @@
+import { ajoutListenerConnexion } from "./connexion.js";
+
+ajoutListenerConnexion();
+
 // Affichage des travaux dans la galerie
 async function showWorks() {
     try {
