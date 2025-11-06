@@ -59,3 +59,9 @@ input[type="submit"]:hover {
 	cursor: pointer;
 	background-color: #0E2F28;
 }
+
+#login-section form span {
+	display: block;
+	margin-top: 1em;
+	text-align: center;
+}

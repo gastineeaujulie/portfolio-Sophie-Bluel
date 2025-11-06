@@ -1,6 +1,3 @@
-import { ajoutListenerConnexion } from "./connexion.js";
-
-ajoutListenerConnexion();
 
 // Affichage des travaux dans la galerie
 async function showWorks() {
@@ -25,8 +22,6 @@ async function showWorks() {
             img.src = work.imageUrl;
             img.alt = work.title;
             caption.textContent = work.title;
-
-            
 
             figure.appendChild(img);
             figure.appendChild(caption);
