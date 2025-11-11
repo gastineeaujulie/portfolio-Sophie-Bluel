@@ -69,6 +69,7 @@ body {
 	position: fixed;
 	top: 0;
 	left: 0;
+	gap: 10px;
 }
 
 /** Header **/
@@ -117,15 +118,14 @@ nav li a:visited, nav li a {
 	text-decoration: none;
 }
 
-li:hover, li a:hover {
+li:hover, li i:hover {
 	color: #000000;
 	font-weight: 700;
 	text-decoration: none;
 }
 
-nav img {
-	width: 19px;
-	height: 19px;
+.fa-brands {
+	font-size: 22px;
 }
 
 /** Main **/
@@ -184,6 +184,27 @@ section {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1.5em;
+	margin-left: 150px;
+}
+
+.titre-portfolio {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.edit-btn {
+	background-color: #FFFFFF;
+	border: none;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	text-align: center;
+	padding: 10px 30px;
+	margin-bottom: 3em;
+	display: flex;
+	gap: 10px;
+	
 }
 
 .filters {

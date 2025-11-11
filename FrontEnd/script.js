@@ -63,7 +63,23 @@ async function showWorks() {
             const worksFilters = works.filter(work => work.categoryId === category.id);
             displayWorks(worksFilters);
         });
-    });   
+    });
+    
+    const token = localStorage.getItem("token");
+    if (token) {
+        filtersContainer.style.display = "none";
+
+        
+        const portfolioHeader = portfolioSection.querySelector(".titre-portfolio");
+        const buttonModifier = document.createElement("button");
+        buttonModifier.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> modifier';
+        buttonModifier.classList.add("edit-btn");
+        portfolioHeader.appendChild(buttonModifier);
+
+    }else{
+        filtersContainer.style.display = "flex";
+        buttonModifier?.remove();
+    }
 
     } catch (error) {
         console.error("Erreur lors du chargement des travaux :", error);
@@ -79,17 +95,31 @@ function checkToken() {
     if (token) {
         const editBar = document.createElement("div");
         editBar.classList.add("edit-bar");
-        editBar.textContent = "Mode édition";
+        editBar.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Mode édition';
         const body = document.querySelector("body");
         body.insertBefore(editBar, body.firstChild);
         
         editBar.style.display = "flex";
+
         const header = document.querySelector("header");
         header.style.marginBottom = "-50px";
         header.style.paddingTop = "50px";
+
+        const loginButton = document.getElementById("login-button");
+        if (loginButton) {
+            loginButton.textContent = "logout";
+            loginButton.addEventListener("click", (event) => {
+                event.preventDefault();
+                localStorage.removeItem("token");
+                window.location.href = "index.html";
+            });
+        }
+
     } else {
         editBar.style.display = "none";
     }
 }
 
 checkToken();
+
+
