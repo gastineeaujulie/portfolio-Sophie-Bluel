@@ -16,16 +16,14 @@ function ajoutListenerConnexion() {
         });
         const userData = await userDataResponse.json();
         console.log(userData);
-
-        // TODO pour ma cherie d'amour:
-        
-        // Si: la connexion est un succes,
+ 
+        // Si la connexion est un succes,
         if(userDataResponse.ok){
             // Alors: stocker le token dans le localStorage et rediriger vers la page principale
             localStorage.setItem("token", userData.token);
             window.location.href = "index.html";
         }else{
-            // Sinon: afficher un message d'erreur
+            // Sinon afficher un message d'erreur
             const messageErreur = document.createElement("span");
             messageErreur.textContent = "Erreur dans l'email ou le mot de passe";
             messageErreur.style.color = "red";

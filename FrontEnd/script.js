@@ -71,3 +71,25 @@ async function showWorks() {
 }      
 // Appel de la fonction pour afficher les travaux au chargement de la page
 showWorks();
+
+// Vérification du token pour afficher les éléments d'édition
+function checkToken() {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        const editBar = document.createElement("div");
+        editBar.classList.add("edit-bar");
+        editBar.textContent = "Mode édition";
+        const body = document.querySelector("body");
+        body.insertBefore(editBar, body.firstChild);
+        
+        editBar.style.display = "flex";
+        const header = document.querySelector("header");
+        header.style.marginBottom = "-50px";
+        header.style.paddingTop = "50px";
+    } else {
+        editBar.style.display = "none";
+    }
+}
+
+checkToken();
