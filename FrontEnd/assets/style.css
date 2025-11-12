@@ -184,14 +184,15 @@ section {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1.5em;
-	margin-left: 150px;
 }
 
-.titre-portfolio {
+.portfolio-header {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 3em;
+	margin-left: 150px;
 }
 
 .edit-btn {
@@ -204,11 +205,9 @@ section {
 	margin-bottom: 3em;
 	display: flex;
 	gap: 10px;
-	
 }
 
 .filters {
-	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;

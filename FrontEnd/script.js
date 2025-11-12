@@ -69,8 +69,12 @@ async function showWorks() {
     if (token) {
         filtersContainer.style.display = "none";
 
-        
-        const portfolioHeader = portfolioSection.querySelector(".titre-portfolio");
+        const portfolioSection = document.querySelector("#portfolio");
+        const titre = portfolioSection.querySelector("h2");
+        const portfolioHeader = document.createElement("div");
+        portfolioHeader.classList.add("portfolio-header");
+        portfolioSection.insertBefore(portfolioHeader, titre);
+        portfolioHeader.appendChild(titre);
         const buttonModifier = document.createElement("button");
         buttonModifier.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> modifier';
         buttonModifier.classList.add("edit-btn");
@@ -78,7 +82,7 @@ async function showWorks() {
 
     }else{
         filtersContainer.style.display = "flex";
-        buttonModifier?.remove();
+        buttonModifier?.remove(); 
     }
 
     } catch (error) {
