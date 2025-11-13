@@ -76,7 +76,7 @@ async function showWorks() {
         portfolioSection.insertBefore(portfolioHeader, titre);
         portfolioHeader.appendChild(titre);
         const buttonModifier = document.createElement("button");
-        buttonModifier.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> modifier';
+        buttonModifier.innerHTML = '<a href="#modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a>';
         buttonModifier.classList.add("edit-btn");
         portfolioHeader.appendChild(buttonModifier);
 

@@ -7,6 +7,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
         <meta name="description" content="">
         <link rel="stylesheet" href="./assets/style.css">
         <link rel="stylesheet" href="login.css">
@@ -20,7 +21,7 @@
                     <li><a href="index.html" target="_blank">projets</a></li>
                     <li><a href="index.html#contact" target="_blank">contact</a></li>
                     <li><a href="login.html" target="_blank">login</a></li>
-                    <li><a href="#"><img src="assets\icons\instagram.png" alt="Instagram"></a></li>
+                    <li><a href="#" title="instagram"><i class="fa-brands fa-instagram"></i></a></li>
                 </ul>
             </nav>
         </header>
@@ -29,11 +30,12 @@
                 <h2>Log in</h2>
                 <form id="login-form"  method="post">
                     <label for="email">E-mail</label>
-                    <input type="text" name="email" id="email" class="text-input" required>
+                    <input type="email" name="email" id="email" class="text-input">
                     <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" class="text-input" required>
+                    <input type="password" name="password" id="password" class="text-input">
                     <input type="submit" value="Se connecter">
                     <a href="#">Mot de passe oublié</a>
+                </form>
             </section>
         </main>
     </body>

@@ -198,13 +198,19 @@ section {
 .edit-btn {
 	background-color: #FFFFFF;
 	border: none;
+	padding: 10px 30px;
+	cursor: pointer;
+	margin-bottom: 3em;;
+}
+
+.portfolio-header a{
+	color: #000000;
+	text-decoration: none;
+	display: flex;
+	gap: 10px;
 	font-family: 'Work Sans';
 	font-size: 14px;
 	text-align: center;
-	padding: 10px 30px;
-	margin-bottom: 3em;
-	display: flex;
-	gap: 10px;
 }
 
 .filters {

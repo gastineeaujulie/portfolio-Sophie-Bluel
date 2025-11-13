@@ -9,6 +9,23 @@ function ajoutListenerConnexion() {
             password: event.target.querySelector("#password").value,
         };
 
+        if(payload.email === "" || payload.password === ""){
+            console.log("Champs vides");
+            const ancienMessageErreur = document.querySelector(".error-message");
+            if(ancienMessageErreur){
+                ancienMessageErreur.remove();
+            }
+
+            const messageErreur = document.createElement("span");
+            messageErreur.textContent = "Veuillez remplir tous les champs";
+            messageErreur.style.color = "red";
+            messageErreur.classList.add("error-message");
+
+            const bouton = formulaireLogIn.querySelector("input[type='submit']");
+            formulaireLogIn.insertBefore(messageErreur, bouton);
+            return;
+        };
+
         const userDataResponse = await fetch("http://localhost:5678/api/users/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
