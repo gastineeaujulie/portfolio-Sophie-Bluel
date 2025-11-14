@@ -51,7 +51,7 @@ table {
 
 body {
 	max-width: 1140px;
-	margin:auto;
+	margin: auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
@@ -186,33 +186,6 @@ section {
 	margin-bottom: 1.5em;
 }
 
-.portfolio-header {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 3em;
-	margin-left: 150px;
-}
-
-.edit-btn {
-	background-color: #FFFFFF;
-	border: none;
-	padding: 10px 30px;
-	cursor: pointer;
-	margin-bottom: 3em;;
-}
-
-.portfolio-header a{
-	color: #000000;
-	text-decoration: none;
-	display: flex;
-	gap: 10px;
-	font-family: 'Work Sans';
-	font-size: 14px;
-	text-align: center;
-}
-
 .filters {
 	flex-direction: row;
 	justify-content: center;
@@ -255,6 +228,112 @@ section {
 .gallery figcaption {
 	margin-top: 5px;
 }
+
+/** Portfolio mode edition **/
+
+.portfolio-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3em;
+	margin-left: 150px;
+}
+
+.edit-btn {
+	background-color: #FFFFFF;
+	border: none;
+	padding: 10px 30px;
+	cursor: pointer;
+	margin-bottom: 3em;;
+}
+
+.portfolio-header a{
+	color: #000000;
+	text-decoration: none;
+	display: flex;
+	gap: 10px;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	text-align: center;
+}
+
+.portfolio-header a:hover {
+	text-decoration: underline;
+}
+
+.modal {
+	display: flex;
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-content {
+	display: flex;
+	flex-direction: column;
+	padding: 30px 0px 0px 0px;
+	align-items: center;
+	background-color: #FFFFFF;
+	width: 630px;
+	height: 688px;
+	margin:auto;
+	border-radius: 10px;
+}
+
+.modal-content button {
+	border: none;
+	background-color: #FFFFFF;
+	width: 24px;
+	height: 24px;
+	margin-left: 571px;
+}
+
+.modal-content i {
+	font-size: 15px;
+}
+
+.modal-content button:active {
+	border: none;
+	text-decoration: none;
+}
+
+.modal-content h1 {
+	font-family: 'Work Sans';
+	font-size: 26px;
+	font-weight: 400;
+	text-align: center;
+	color: #000000;
+	 	
+}
+
+.supprimer-img {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	border-bottom: #B3B3B3 solid 1px;
+	padding: 40px 0px 50px 0px;
+}
+
+.modal-content img{
+	width: 77px;
+	height: 103px;
+	padding: 15px 5px;
+}
+
+.modal-content input[type="submit"] {
+	width: 237px;
+	height: 36px;
+	border: none;
+	border-radius: 60px;
+	font-size: 14px;
+	margin-top: 30px ;
+}
+
 
 /** Contact **/
 
