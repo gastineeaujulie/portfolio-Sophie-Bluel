@@ -80,53 +80,60 @@ async function showWorks() {
             buttonModifier.classList.add("edit-btn");
             portfolioHeader.appendChild(buttonModifier);
 
-            let modal = null
-            const focusableSelector = "button, a, input, textarea";
-            let focusables = []
+            let modal = null;
+            const focusableSelector = "button, a, input, textarea, img";
+            let focusables = [];
 
-            const openModal = function (e){
-                e.preventDefault()
-                modal= document.querySelector(e.target.getAttribute('href'))
-                focusables = modal.querySelectorAll(focusableSelector)
+            const openModal = function (event){
+                event.preventDefault()
+                modal= document.querySelector(event.target.getAttribute('href'));
+                focusables = Array.from(modal.querySelectorAll(focusableSelector));
                 modal.style.display = null;
                 modal.removeAttribute('aria-hidden');
                 modal.setAttribute('aria-modal', 'true');
-                modal.addEventListener('click', closeModal)
+                modal.addEventListener('click', closeModal);
                 modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
-                modal.querySelector('..js-modal-stop').addEventListener('click', stopPropagation);
+                modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+                document.body.classList.add('no-scroll');
             }
 
-            const closeModal = function (e){
+            const closeModal = function (event){
                 if(modal === null) return
-                e.preventDefault()
+                event.preventDefault()
                 modal.style.display = "none";
                 modal.setAttribute('aria-hidden', 'true');
                 modal.removeAttribute('aria-modal');
                 modal.removeEventListener('click', closeModal);
                 modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
                 modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
+                document.body.classList.remove('no-scroll');
                 modal = null;
             }
 
-            const stopPropagation = function (e) {
-                e.stopPropagation()
+            const stopPropagation = function (event) {
+                event.stopPropagation()
             }
 
-            const focusInModal = function (e) {
-                e.preventDefault()
-        
+            const focusInModal = function (event) {
+                event.preventDefault()
+                let index = focusables.findIndex(f => f === modal.querySelector(':focus'));
+                index ++;
+                if( index >= focusables.length) {
+                    index = 0
+                }
+            focusables[index].focus()
             }
 
             document.querySelectorAll('.js-modal').forEach(a => {
                 a.addEventListener('click', openModal)
             })
 
-            window.addEventListener('keydown', function (e) {
-                if(e.key === "Escape" || e.key === "Esc") {
-                    closeModal(e)
+            window.addEventListener('keydown', function (event) {
+                if(event.key === "Escape" || event.key === "Esc") {
+                    closeModal(event)
                 }
-                if(e.key === "Tab" && modal !== null) {
-                    focusInModal(e)
+                if(event.key === "Tab" && modal !== null) {
+                    focusInModal(event)
                 }
             })
 

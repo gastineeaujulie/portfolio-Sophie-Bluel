@@ -56,6 +56,10 @@ body {
 	font-size: 14px;
 }
 
+body.no-scroll {
+	overflow: hidden;
+}
+
 .edit-bar {
 	align-items: center;
 	justify-content: center;
@@ -258,11 +262,8 @@ section {
 	text-align: center;
 }
 
-.portfolio-header a:hover {
-	text-decoration: underline;
-}
-
 .modal {
+	overflow-y: auto;
 	display: flex;
 	position: fixed;
 	top:0;
@@ -286,16 +287,18 @@ section {
 	border-radius: 10px;
 }
 
-.modal-content button {
+.modal-content > button {
 	border: none;
 	background-color: #FFFFFF;
 	width: 24px;
 	height: 24px;
-	margin-left: 571px;
+	margin-left: auto;
+	padding-right: 40px;
 }
 
 .modal-content i {
 	font-size: 15px;
+	font-weight: 400px;
 }
 
 .modal-content button:active {
@@ -309,20 +312,45 @@ section {
 	font-weight: 400;
 	text-align: center;
 	color: #000000;
-	 	
+	margin-top: 20px; 	
 }
 
 .supprimer-img {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	border-bottom: #B3B3B3 solid 1px;
-	padding: 40px 0px 50px 0px;
+	padding: 0px 0px 50px 0px;
+	margin-top: 40px;
 }
 
-.modal-content img{
+ .img-container img {
 	width: 77px;
 	height: 103px;
-	padding: 15px 5px;
+	padding: 0px 5px 25px 5px;
+}
+
+.img-container {
+	position: relative;
+	display: inline-block;
+}
+
+.delete-button {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	background: #000000;
+	color:#FFFFFF;
+	border: none;
+	border-radius: 2px; 
+	width: 17px;
+	height: 17px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.delete-button i {
+	font-size: 10px;
 }
 
 .modal-content input[type="submit"] {
@@ -331,7 +359,7 @@ section {
 	border: none;
 	border-radius: 60px;
 	font-size: 14px;
-	margin-top: 30px ;
+	margin-top: 40px ;
 }
 
 
