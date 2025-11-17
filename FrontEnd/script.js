@@ -87,6 +87,7 @@ async function showWorks() {
             const openModal = function (e){
                 e.preventDefault()
                 modal= document.querySelector(e.target.getAttribute('href'))
+                focusables = modal.querySelectorAll(focusableSelector)
                 modal.style.display = null;
                 modal.removeAttribute('aria-hidden');
                 modal.setAttribute('aria-modal', 'true');
