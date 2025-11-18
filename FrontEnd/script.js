@@ -64,93 +64,14 @@ async function showWorks() {
                 displayWorks(worksFilters);
             });
         });
-    
-        const token = localStorage.getItem("token");
-        if (token) {
-            filtersContainer.style.display = "none";
-
-            const portfolioSection = document.querySelector("#portfolio");
-            const titre = portfolioSection.querySelector("h2");
-            const portfolioHeader = document.createElement("div");
-            portfolioHeader.classList.add("portfolio-header");
-            portfolioSection.insertBefore(portfolioHeader, titre);
-            portfolioHeader.appendChild(titre);
-            const buttonModifier = document.createElement("button");
-            buttonModifier.innerHTML = '<a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a>';
-            buttonModifier.classList.add("edit-btn");
-            portfolioHeader.appendChild(buttonModifier);
-
-            let modal = null;
-            const focusableSelector = "button, a, input, textarea, img";
-            let focusables = [];
-
-            const openModal = function (event){
-                event.preventDefault()
-                modal= document.querySelector(event.target.getAttribute('href'));
-                focusables = Array.from(modal.querySelectorAll(focusableSelector));
-                modal.style.display = null;
-                modal.removeAttribute('aria-hidden');
-                modal.setAttribute('aria-modal', 'true');
-                modal.addEventListener('click', closeModal);
-                modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
-                modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
-                document.body.classList.add('no-scroll');
-            }
-
-            const closeModal = function (event){
-                if(modal === null) return
-                event.preventDefault()
-                modal.style.display = "none";
-                modal.setAttribute('aria-hidden', 'true');
-                modal.removeAttribute('aria-modal');
-                modal.removeEventListener('click', closeModal);
-                modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
-                modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
-                document.body.classList.remove('no-scroll');
-                modal = null;
-            }
-
-            const stopPropagation = function (event) {
-                event.stopPropagation()
-            }
-
-            const focusInModal = function (event) {
-                event.preventDefault()
-                let index = focusables.findIndex(f => f === modal.querySelector(':focus'));
-                index ++;
-                if( index >= focusables.length) {
-                    index = 0
-                }
-            focusables[index].focus()
-            }
-
-            document.querySelectorAll('.js-modal').forEach(a => {
-                a.addEventListener('click', openModal)
-            })
-
-            window.addEventListener('keydown', function (event) {
-                if(event.key === "Escape" || event.key === "Esc") {
-                    closeModal(event)
-                }
-                if(event.key === "Tab" && modal !== null) {
-                    focusInModal(event)
-                }
-            })
-
-        }else{
-            filtersContainer.style.display = "flex";
-            buttonModifier?.remove(); 
-        }
-
     } catch (error) {
         console.error("Erreur lors du chargement des travaux :", error);
     }  
-}      
+}
 // Appel de la fonction pour afficher les travaux au chargement de la page
-showWorks();
+await showWorks();
 
-// Vérification du token pour afficher les éléments d'édition
-function checkToken() {
+function showEditMode() {
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -175,12 +96,101 @@ function checkToken() {
                 window.location.href = "index.html";
             });
         }
-
-    } else {
-        editBar.style.display = "none";
     }
 }
+showEditMode();
+    
+function activateEditBtn() {
+    const filtersContainer = document.querySelector(".filters");
+    const token = localStorage.getItem("token");
+    if (token) {
+        filtersContainer.style.display = "none";
 
-checkToken();
+        const portfolioSection = document.querySelector("#portfolio");
+        const titre = portfolioSection.querySelector("h2");
+        const portfolioHeader = document.createElement("div");
+        portfolioHeader.classList.add("portfolio-header");
+        portfolioSection.insertBefore(portfolioHeader, titre);
+        portfolioHeader.appendChild(titre);
+        const buttonModifier = document.createElement("button");
+        buttonModifier.innerHTML = '<a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a>';
+        buttonModifier.classList.add("edit-btn");
+        portfolioHeader.appendChild(buttonModifier);
+
+    } else {
+        filtersContainer.style.display = "flex";
+        buttonModifier?.remove(); 
+    }
+}
+activateEditBtn();
+
+function setupModal() {
+    const token = localStorage.getItem("token");
+    if (token) {
+        let modal = null;
+        const focusableSelector = "button, a, input, textarea";
+        let focusables = [];
+        
+        const openModal = function (event){
+            event.preventDefault()
+            modal= document.querySelector(event.target.getAttribute('href'));
+            modal.style.display = null;
+            modal.removeAttribute('aria-hidden');
+            modal.setAttribute('aria-modal', 'true');
+            focusables = Array.from(modal.querySelectorAll(focusableSelector));
+            focusables[0].focus();                                                                                                                                                                                                                                                                                                          
+            modal.addEventListener('click', closeModal);
+            modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
+            modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+            document.body.classList.add('no-scroll');
+        }
+
+        const closeModal = function (event){
+            if(modal === null) return
+            event.preventDefault()
+            modal.style.display = "none";
+            modal.setAttribute('aria-hidden', 'true');
+            modal.removeAttribute('aria-modal');
+            modal.removeEventListener('click', closeModal);
+            modal.querySelector('.js-modal-close').removeEventListener('click', closeModal);
+            modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
+            document.body.classList.remove('no-scroll');
+            modal = null;
+        }
+
+        const stopPropagation = function (event) {
+            event.stopPropagation()
+        }
+
+        const focusInModal = function (event) {
+            event.preventDefault()
+            let index = focusables.findIndex(f => f === document.activeElement);
+            index ++;
+            if( index >= focusables.length) {
+                index = 0
+            }
+            if (index < 0) {
+                index = focusables.length -1
+            }
+        focusables[index].focus()
+        }
+
+        document.querySelectorAll('.js-modal').forEach(a => {
+            a.addEventListener('click', openModal)
+        })
+
+        window.addEventListener('keydown', function (event) {
+            if(event.key === "Escape" || event.key === "Esc") {
+                closeModal(event)
+            }
+            if(event.key === "Tab" && modal !== null) {
+                focusInModal(event)
+            }
+        })
+    }
+}
+setupModal();
+
+
 
 

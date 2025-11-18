@@ -191,6 +191,7 @@ section {
 }
 
 .filters {
+	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
@@ -293,12 +294,14 @@ section {
 	width: 24px;
 	height: 24px;
 	margin-left: auto;
-	padding-right: 40px;
+	margin-right: 40px;
 }
 
 .modal-content i {
 	font-size: 15px;
-	font-weight: 400px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .modal-content button:active {
