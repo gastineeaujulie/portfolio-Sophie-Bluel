@@ -38,7 +38,7 @@
 	</section>
 	<section id="portfolio">
 			<h2>Mes projets</h2>
-			<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modifier-galerie" style="display:none;">
+			<aside id="modal1" class="modal1" aria-hidden="true" role="dialog" aria-labelledby="modifier-galerie" style="display:none;">
 				<div class="modal-content js-modal-stop">
 					<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
 					<h1 id="title-modal">Galerie photo</h1>
@@ -113,9 +113,12 @@
 					<button type="button" data-modal="#modal2" class="add-photo-button"><a href="#modal2" class="js-modal2">Ajouter une photo</a></button>
 				</div>
 			</aside>
-			<aside id="modal2" class="modal" aria-hidden="true" role="dialog" aria-labelledby="ajout-photo" style="display:none;">
+			<aside id="modal2" class="modal2" aria-hidden="true" role="dialog" aria-labelledby="ajout-photo" style="display:none;">
 				<div class="modal2-content js-modal2-stop">
-					<button class="js-modal2-close"><i class="fa-solid fa-xmark"></i></button>
+					<div class="close-and-back">
+						<button class="js-modal-back"><i class="fa-solid fa-arrow-left"></i></button>
+						<button class="js-modal2-close"><i class="fa-solid fa-xmark"></i></button>
+					</div>
 					<h1 id="ajout-photo">Ajout Photo</h1>
 					<form>
 						<label for="photo-upload" class="custom-file-upload"><i class="fa-solid fa-image"></i>+ Ajouter une photo</label>
