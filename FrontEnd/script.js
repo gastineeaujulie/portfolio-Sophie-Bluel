@@ -130,6 +130,7 @@ function setupModal() {
         let modal = null;
         const focusableSelector = "button, a, input, textarea";
         let focusables = [];
+
         
         const openModal = function (event){
             event.preventDefault()
@@ -165,7 +166,11 @@ function setupModal() {
         const focusInModal = function (event) {
             event.preventDefault()
             let index = focusables.findIndex(f => f === document.activeElement);
-            index ++;
+            if(event.shiftKey === true){
+                index --;
+            } else {
+                index ++;
+            }
             if( index >= focusables.length) {
                 index = 0
             }

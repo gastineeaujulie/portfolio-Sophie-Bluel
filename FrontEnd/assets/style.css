@@ -318,7 +318,7 @@ section {
 	margin-top: 20px; 	
 }
 
-.supprimer-img {
+.gallery-modal {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	border-bottom: #B3B3B3 solid 1px;
@@ -356,19 +356,18 @@ section {
 	font-size: 10px;
 }
 
-.modal-content .add-photo-button {
+.modal-content button.add-photo-button {
 	width: 237px;
 	height: 36px;
 	border: none;
 	border-radius: 60px;
-	font-size: 14px;
 	margin-top: 40px ;
 	background-color: #1D6154;
 	color: #FFFFFF;
 	font-family: 'Syne';
 }
 
-.modal-content .add-photo-button:hover{
+.modal-content button.add-photo-button:hover {
 	background-color: #0E2F28;
 }
 
