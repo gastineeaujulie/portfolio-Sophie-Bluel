@@ -1,4 +1,4 @@
-
+const isAuthenticated = localStorage.getItem("token");
 // Affichage des travaux dans la galerie
 async function showWorks() {
     try {
@@ -72,38 +72,36 @@ async function showWorks() {
 await showWorks();
 
 function showEditMode() {
-    const token = localStorage.getItem("token");
+    if (!isAuthenticated) {
+        return;
+    }
+    const editBar = document.createElement("div");
+    editBar.classList.add("edit-bar");
+    editBar.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Mode édition';
+    const body = document.querySelector("body");
+    body.insertBefore(editBar, body.firstChild);
+    
+    editBar.style.display = "flex";
 
-    if (token) {
-        const editBar = document.createElement("div");
-        editBar.classList.add("edit-bar");
-        editBar.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Mode édition';
-        const body = document.querySelector("body");
-        body.insertBefore(editBar, body.firstChild);
-        
-        editBar.style.display = "flex";
+    const header = document.querySelector("header");
+    header.style.marginBottom = "-50px";
+    header.style.paddingTop = "50px";
 
-        const header = document.querySelector("header");
-        header.style.marginBottom = "-50px";
-        header.style.paddingTop = "50px";
-
-        const loginButton = document.getElementById("login-button");
-        if (loginButton) {
-            loginButton.textContent = "logout";
-            loginButton.addEventListener("click", (event) => {
-                event.preventDefault();
-                localStorage.removeItem("token");
-                window.location.href = "index.html";
-            });
-        }
+    const loginButton = document.getElementById("login-button");
+    if (loginButton) {
+        loginButton.textContent = "logout";
+        loginButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
     }
 }
 showEditMode();
     
 function activateEditBtn() {
     const filtersContainer = document.querySelector(".filters");
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (isAuthenticated) {
         filtersContainer.style.display = "none";
 
         const portfolioSection = document.querySelector("#portfolio");
@@ -125,8 +123,9 @@ function activateEditBtn() {
 activateEditBtn();
 
 function setupModal() {
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (!isAuthenticated) {
+        return;
+    }
         let modal = null;
         const focusableSelector = "button, a, input, textarea";
         let focusables = [];
@@ -191,10 +190,87 @@ function setupModal() {
             if(event.key === "Tab" && modal !== null) {
                 focusInModal(event)
             }
-        })
-    }
+        })    
 }
 setupModal();
+
+function modal2Setup() {
+    if (!isAuthenticated) {
+        return;
+    }
+        let modal2 = null;
+        const focusableSelector = "button, a, input, textarea";
+        let focusables = [];
+        ;
+
+        const openModal2 = function (event){
+            event.preventDefault()
+            const modal = document.querySelector('.modal')
+            modal.style.display = "none";
+            modal.setAttribute('aria-hidden', 'true');
+            modal.removeAttribute('aria-modal');
+            modal2= document.querySelector(event.target.getAttribute('href'));
+            modal2.style.display = null;
+            modal2.removeAttribute('aria-hidden');
+            modal2.setAttribute('aria-modal', 'true');
+            focusables = Array.from(modal2.querySelectorAll(focusableSelector));
+            focusables[0].focus();                                                                                                                                                                                                                                                                                                          
+            modal2.addEventListener('click', closeModal2);
+            modal2.querySelector('.js-modal-close').addEventListener('click', closeModal2);
+            modal2.querySelector('.js-modal-stop').addEventListener('click', stopPropagation2);
+            document.body.classList.add('no-scroll');
+        }
+
+        const closeModal2 = function (event){
+            if(modal2 === null) return
+            event.preventDefault()
+            const modal = document.querySelector('.modal')
+            modal.style.display = null;
+            modal.removeAttribute('aria-hidden');
+            modal.setAttribute('aria-modal', 'true');
+            modal2.style.display = "none";
+            modal2.setAttribute('aria-hidden', 'true');
+            modal2.removeAttribute('aria-modal');
+            modal2.removeEventListener('click', closeModal2);
+            modal2.querySelector('.js-modal-close').removeEventListener('click', closeModal2);
+            modal2.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation2);
+            document.body.classList.remove('no-scroll');
+            modal2 = null;
+        }
+        const stopPropagation2 = function (event) {
+            event.stopPropagation()
+        }
+        const focusInModal2 = function (event) {
+            event.preventDefault()
+            let index = focusables.findIndex(f => f === document.activeElement);
+            if(event.shiftKey === true){
+                index --;
+            } else {
+                index ++;
+            }
+            if( index >= focusables.length) {
+                index = 0
+            }
+            if (index < 0) {
+                index = focusables.length -1
+            }
+        focusables[index].focus()
+        }
+        document.querySelectorAll('.js-modal2').forEach(a => {
+            a.addEventListener('click', openModal2)
+
+        })
+
+        window.addEventListener('keydown', function (event) {
+            if(event.key === "Escape" || event.key === "Esc") {
+                closeModal2(event)
+            }
+            if(event.key === "Tab" && modal2 !== null) {
+                focusInModal2(event)
+            }
+        })
+}
+modal2Setup();
 
 
 

@@ -288,7 +288,7 @@ section {
 	border-radius: 10px;
 }
 
-.modal-content > button {
+.modal-content button.js-modal-close {
 	border: none;
 	background-color: #FFFFFF;
 	width: 24px;
@@ -363,8 +363,16 @@ section {
 	border-radius: 60px;
 	margin-top: 40px ;
 	background-color: #1D6154;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-content a.js-modal2 {
 	color: #FFFFFF;
+	text-decoration: none;
 	font-family: 'Syne';
+	font-size: 14px;
 }
 
 .modal-content button.add-photo-button:hover {
