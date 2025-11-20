@@ -145,6 +145,21 @@ function setupModal() {
             document.body.classList.add('no-scroll');
         }
 
+        // document.querySelector('.delete-button').addEventListener('click', (event) => {
+        //     // Code to delete all works goes here
+        //     event.preventDefault();
+        //     fetch('http://localhost:5678/api/works', {
+        //         method: 'DELETE'
+        //     })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Erreur lors de la suppression des travaux');
+        //         } else {
+        //             console.log('Suppression réussie');
+        //         }
+        //     });
+        // });
+
         const closeModal = function (event){
             if(modal1 === null) return
             event.preventDefault()
@@ -201,7 +216,7 @@ function modal2Setup() {
         let modal2 = null;
         const focusableSelector = "button, a, input, textarea";
         let focusables = [];
-        ;
+        
 
         const openModal2 = function (event){
             event.preventDefault()
@@ -219,7 +234,12 @@ function modal2Setup() {
             modal2.querySelector('.js-modal2-close').addEventListener('click', closeModal2);
             modal2.querySelector('.js-modal2-stop').addEventListener('click', stopPropagation2);
             document.body.classList.add('no-scroll');
+            
         }
+
+        document.querySelector('.upload-instructions').addEventListener('click', function() {
+            document.getElementById('photo-upload').click();
+        });
 
         const closeModal2 = function (event){
             if(modal2 === null) return
@@ -239,7 +259,7 @@ function modal2Setup() {
         }
 
         const stopPropagation2 = function (event) {
-            event.stopPropagation2()
+            event.stopPropagation()
         }
 
         const focusInModal2 = function (event) {

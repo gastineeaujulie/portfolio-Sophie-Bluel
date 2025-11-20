@@ -281,7 +281,7 @@ section {
 .modal-content, .modal2-content {
 	display: flex;
 	flex-direction: column;
-	padding: 30px 0px 0px 0px;
+	padding: 20px 0px 0px 0px;
 	align-items: center;
 	background-color: #FFFFFF;
 	width: 630px;
@@ -334,7 +334,7 @@ section {
 	font-weight: 400;
 	text-align: center;
 	color: #000000;
-	margin-top: 20px; 	
+	margin-top: 15px; 	
 }
 
 .gallery-modal {
@@ -342,7 +342,7 @@ section {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	border-bottom: #B3B3B3 solid 1px;
 	padding: 0px 0px 50px 0px;
-	margin-top: 40px;
+	margin-top: 50px;
 }
 
  .img-container img {
@@ -369,6 +369,7 @@ section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
 
 .delete-button i {
@@ -398,6 +399,85 @@ section {
 	background-color: #0E2F28;
 }
 
+.modal2-content .add-works-form {
+	width: 420px;
+	margin: 40px auto 0px auto;
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	border-bottom: #B3B3B3 solid 1px;
+	padding-bottom: 30px;
+}
+
+.add-works-form .text-input {
+	height: 51px;
+	font-size: 14px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 1em;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	color: #6C6C6C;
+}
+
+.ajout-photo-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+	text-align: center;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	color: #B9C5CC;
+	margin-bottom: 2em;
+}
+
+.ajout-photo-container  i.fa-regular.fa-image {
+	display: inline-block;
+	width: 76px;
+	height: 76px;
+	font-size: 68px;
+	color: #B9C5CC;
+}
+
+.upload-instructions {
+	border: none;
+	width: 173px;
+	height: 36px;
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	color: #306685;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.photo-format-info {
+	margin-top: 10px;
+	font-size: 10px;
+	color: #444444;
+}
+
+.modal2-content .save-changes-button {
+	background-color: #A7A7A7;
+	font-size: 14px;
+	width: 237px;
+	height: 36px;
+	border: none;
+	margin-top: 40px ;
+}
+
+.modal2-content .save-changes-button:hover {
+	cursor: pointer;
+	background-color: #7A7A7A;
+}
 
 /** Contact **/
 
