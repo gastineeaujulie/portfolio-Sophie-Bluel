@@ -122,90 +122,133 @@ function activateEditBtn() {
 }
 activateEditBtn();
 
+function createWorkItemInModal(work) {
+    if(!isAuthenticated){
+        return;
+    }
+
+    const imgContainer = document.createElement("div");
+    const image = document.createElement("img");
+    const btn = document.createElement("button");
+
+    imgContainer.classList.add("img-container");
+    image.src = work.imageUrl;
+    image.alt = work.title;
+
+    btn.classList.add("delete-button");
+    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+    const galleryModal = document.querySelector('.gallery-modal');
+    galleryModal.appendChild(imgContainer);
+    imgContainer.appendChild(image);
+    imgContainer.appendChild(btn);
+
+    btn.addEventListener('click', (event) => {
+        // Code to delete all works goes here
+        event.preventDefault();
+        fetch(`http://localhost:5678/api/works/${work.id}`, {
+            method: 'DELETE', 
+            headers: {
+                'Authorization': `Bearer ${isAuthenticated}`
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la suppression des travaux');
+            } else {
+                console.log('Suppression réussie');
+                // TODO: create function to delete work by id in html
+            }
+        });
+    });
+}
+
+async function createWorksToDelete() {
+    if(!isAuthenticated){
+        return;
+    }
+    const worksResponse = await fetch('http://localhost:5678/api/works');
+    if (!worksResponse.ok) {
+        throw new Error(`Erreur API`);
+    }
+    const works = await worksResponse.json();
+
+    works.forEach((work) => {
+        createWorkItemInModal(work)
+    });
+}
+
 function setupModal() {
     if (!isAuthenticated) {
         return;
     }
-        let modal1 = null;
-        const focusableSelector = "button, a, input, textarea";
-        let focusables = [];
 
-        
-        const openModal = function (event){
-            event.preventDefault()
-            modal1= document.querySelector(event.target.getAttribute('href'));
-            modal1.style.display = null;
-            modal1.removeAttribute('aria-hidden');
-            modal1.setAttribute('aria-modal', 'true');
-            focusables = Array.from(modal1.querySelectorAll(focusableSelector));
-            focusables[0].focus();                                                                                                                                                                                                                                                                                                          
-            modal1.addEventListener('click', closeModal);
-            modal1.querySelector('.js-modal-close').addEventListener('click', closeModal);
-            modal1.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
-            document.body.classList.add('no-scroll');
+    let modal1 = null;
+    const focusableSelector = "button, a, input, textarea";
+    let focusables = [];
+
+    
+    const openModal = function (event){
+        event.preventDefault()
+        modal1= document.querySelector(event.target.getAttribute('href'));
+        modal1.style.display = null;
+        modal1.removeAttribute('aria-hidden');
+        modal1.setAttribute('aria-modal', 'true');
+        focusables = Array.from(modal1.querySelectorAll(focusableSelector));
+        focusables[0].focus();                                                                                                                                                                                                                                                                                                          
+        modal1.addEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-close').addEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+        document.body.classList.add('no-scroll');
+    }
+
+    const closeModal = function (event){
+        if(modal1 === null) return
+        event.preventDefault()
+        modal1.style.display = "none";
+        modal1.setAttribute('aria-hidden', 'true');
+        modal1.removeAttribute('aria-modal');
+        modal1.removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-close').removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
+        document.body.classList.remove('no-scroll');
+        modal1 = null;
+    }
+
+    const stopPropagation = function (event) {
+        event.stopPropagation()
+    }
+
+    const focusInModal = function (event) {
+        event.preventDefault()
+        let index = focusables.findIndex(f => f === document.activeElement);
+        if(event.shiftKey === true){
+            index --;
+        } else {
+            index ++;
         }
-
-        // document.querySelector('.delete-button').addEventListener('click', (event) => {
-        //     // Code to delete all works goes here
-        //     event.preventDefault();
-        //     fetch('http://localhost:5678/api/works', {
-        //         method: 'DELETE'
-        //     })
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Erreur lors de la suppression des travaux');
-        //         } else {
-        //             console.log('Suppression réussie');
-        //         }
-        //     });
-        // });
-
-        const closeModal = function (event){
-            if(modal1 === null) return
-            event.preventDefault()
-            modal1.style.display = "none";
-            modal1.setAttribute('aria-hidden', 'true');
-            modal1.removeAttribute('aria-modal');
-            modal1.removeEventListener('click', closeModal);
-            modal1.querySelector('.js-modal-close').removeEventListener('click', closeModal);
-            modal1.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation);
-            document.body.classList.remove('no-scroll');
-            modal1 = null;
+        if( index >= focusables.length) {
+            index = 0
         }
-
-        const stopPropagation = function (event) {
-            event.stopPropagation()
+        if (index < 0) {
+            index = focusables.length -1
         }
+    focusables[index].focus()
+    }
 
-        const focusInModal = function (event) {
-            event.preventDefault()
-            let index = focusables.findIndex(f => f === document.activeElement);
-            if(event.shiftKey === true){
-                index --;
-            } else {
-                index ++;
-            }
-            if( index >= focusables.length) {
-                index = 0
-            }
-            if (index < 0) {
-                index = focusables.length -1
-            }
-        focusables[index].focus()
+    document.querySelectorAll('.js-modal').forEach(a => {
+        createWorksToDelete();
+        a.addEventListener('click', openModal)
+    })
+
+    window.addEventListener('keydown', function (event) {
+        if(event.key === "Escape" || event.key === "Esc") {
+            closeModal(event)
         }
-
-        document.querySelectorAll('.js-modal').forEach(a => {
-            a.addEventListener('click', openModal)
-        })
-
-        window.addEventListener('keydown', function (event) {
-            if(event.key === "Escape" || event.key === "Esc") {
-                closeModal(event)
-            }
-            if(event.key === "Tab" && modal1 !== null) {
-                focusInModal(event)
-            }
-        })    
+        if(event.key === "Tab" && modal1 !== null) {
+            focusInModal(event)
+        }
+    })    
 }
 setupModal();
 
@@ -232,7 +275,7 @@ function modal2Setup() {
             focusables[0].focus();                                                                                                                                                                                                                                                                                                          
             modal2.addEventListener('click', closeModal2);
             modal2.querySelector('.js-modal2-close').addEventListener('click', closeModal2);
-            modal2.querySelector('.js-modal2-stop').addEventListener('click', stopPropagation2);
+            modal2.querySelector('.js-modal2-stop').addEventListener('click', stopPropagation);
             document.body.classList.add('no-scroll');
             
         }
@@ -241,26 +284,39 @@ function modal2Setup() {
             document.getElementById('photo-upload').click();
         });
 
+         
+
         const closeModal2 = function (event){
             if(modal2 === null) return
             event.preventDefault()
-            const modal = document.querySelector('.modal1')
-            modal.style.display = null;
-            modal.removeAttribute('aria-hidden');
-            modal.setAttribute('aria-modal', 'true');
             modal2.style.display = "none";
             modal2.setAttribute('aria-hidden', 'true');
             modal2.removeAttribute('aria-modal');
             modal2.removeEventListener('click', closeModal2);
             modal2.querySelector('.js-modal2-close').removeEventListener('click', closeModal2);
-            modal2.querySelector('.js-modal2-stop').removeEventListener('click', stopPropagation2);
+            modal2.querySelector('.js-modal2-stop').removeEventListener('click', stopPropagation);
             document.body.classList.remove('no-scroll');
             modal2 = null;
         }
 
-        const stopPropagation2 = function (event) {
+        const stopPropagation = function (event) {
             event.stopPropagation()
         }
+
+        const backToModal1 = function (event) {
+            event.preventDefault()
+            modal2.style.display = "none";
+            modal2.setAttribute('aria-hidden', 'true');
+            modal2.removeAttribute('aria-modal');
+            const modal = document.querySelector('.modal1')
+            modal.style.display = null;
+            modal.removeAttribute('aria-hidden');
+            modal.setAttribute('aria-modal', 'true');
+        }
+
+        document.querySelectorAll('.js-modal-back').forEach(a => {
+            a.addEventListener('click', backToModal1)
+        })
 
         const focusInModal2 = function (event) {
             event.preventDefault()
