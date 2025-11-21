@@ -56,22 +56,21 @@
 					<h1 id="ajout-photo">Ajout Photo</h1>
 					<form class="add-works-form">
 						<div class="ajout-photo-container">
+							<i class="fa-regular fa-image"></i>
 							<label for="photo-upload" class="custom-file-upload">
-								<i class="fa-regular fa-image"></i>
 								<span class="upload-instructions">+ Ajouter photo</span>
 							</label>
 							<input type="file" id="photo-upload" name="photo-upload" accept=".jpg, .png" style="display: none;">
 							<p class="photo-format-info">jpg, png : 4mo max</p>
 						</div>
-						
 						<label for="title">Titre</label>
 						<input type="text" name="title" id="title" class="text-input">
 						<label for="category">Catégorie</label>
 						<select name="category" id="category" class="text-input">
-							<option value="" disabled selected></option>
+							<!-- <option value="" disabled selected></option>
 							<option value="1">Objets</option>
 							<option value="2">Appartements</option>
-							<option value="3">Hôtels & Restaurants</option>
+							<option value="3">Hôtels & Restaurants</option> -->
 						</select>
 					</form>
 					<input type="submit" value="Valider" class="save-changes-button">

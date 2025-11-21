@@ -436,14 +436,28 @@ section {
 	font-size: 14px;
 	color: #B9C5CC;
 	margin-bottom: 2em;
+	position: relative;
+	overflow: hidden;
+}
+
+.ajout-photo-container.has-image *:not(img.preview){
+	display: none;
+}
+
+.ajout-photo-container img.preview {
+	max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 .ajout-photo-container  i.fa-regular.fa-image {
-	display: inline-block;
 	width: 76px;
 	height: 76px;
 	font-size: 68px;
 	color: #B9C5CC;
+	margin-bottom: 5px;
 }
 
 .upload-instructions {

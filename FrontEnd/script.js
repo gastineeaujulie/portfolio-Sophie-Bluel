@@ -158,6 +158,7 @@ function createWorkItemInModal(work) {
             } else {
                 console.log('Suppression réussie');
                 // TODO: create function to delete work by id in html
+                imgContainer.remove();
             }
         });
     });
@@ -252,6 +253,8 @@ function setupModal() {
 }
 setupModal();
 
+
+
 function modal2Setup() {
     if (!isAuthenticated) {
         return;
@@ -279,12 +282,6 @@ function modal2Setup() {
             document.body.classList.add('no-scroll');
             
         }
-
-        document.querySelector('.upload-instructions').addEventListener('click', function() {
-            document.getElementById('photo-upload').click();
-        });
-
-         
 
         const closeModal2 = function (event){
             if(modal2 === null) return
@@ -336,7 +333,6 @@ function modal2Setup() {
         }
         document.querySelectorAll('.js-modal2').forEach(a => {
             a.addEventListener('click', openModal2)
-
         })
 
         window.addEventListener('keydown', function (event) {
@@ -350,6 +346,70 @@ function modal2Setup() {
 }
 modal2Setup();
 
+function chargeNewWork() {
+    const ajoutPhotoContainer = document.querySelector('.ajout-photo-container');
+    const photoUpload = document.getElementById('photo-upload')
 
+    console.log("Container trouvé :", ajoutPhotoContainer);
+    console.log("Input file trouvé :", photoUpload);
+
+    document.querySelector('.upload-instructions').addEventListener('click', (event) => {
+            event.preventDefault()
+            photoUpload.click();
+        }); 
+        
+    photoUpload.addEventListener('change', () => {
+        const file = photoUpload.files[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            let afficherImg = ajoutPhotoContainer.querySelector('img.preview');
+
+            if(!afficherImg) {
+                afficherImg = document.createElement('img');
+                afficherImg.classList.add('preview');
+                ajoutPhotoContainer.appendChild(afficherImg); 
+            }    
+            afficherImg.src = event.target.result;
+            ajoutPhotoContainer.classList.add('has-image');
+        }
+        reader.readAsDataURL(file);
+    });      
+}
+chargeNewWork();
+
+async function categoriesNewWork(category){
+    if(!isAuthenticated){
+        return;
+    }
+
+    const optionCategorie = document.createElement("option");
+    optionCategorie.value = category.name;
+    optionCategorie.textContent = category.name;
+    
+    const selectCategory = document.getElementById('category');
+    selectCategory.appendChild(optionCategorie);
+    
+    selectCategory.addEventListener('click', async(event) => {
+        // Code to delete all works goes here
+        event.preventDefault();
+        if (event.tagert.value !== category.name) {
+            return;
+        }
+        try{
+            const response = await fetch(`http://localhost:5678/api/categories/${category.id}`);
+                if (!response.ok) {
+                    throw new Error('Erreur chargement categories');
+            }
+        const addedCategory = await response.json();
+        optionCategorie.textContent = addedCategory.name;
+        } catch (error) {
+            console.error("Erreur lors du chargement des catégories :", error);
+        }
+    });
+
+}
 
 
