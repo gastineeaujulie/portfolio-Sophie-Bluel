@@ -1,4 +1,5 @@
 const isAuthenticated = localStorage.getItem("token");
+let categories;
 // Affichage des travaux dans la galerie
 async function showWorks() {
     try {
@@ -8,7 +9,7 @@ async function showWorks() {
             throw new Error(`Erreur API`);
         }
         const works = await worksResponse.json();
-        const categories = await categoriesResponse.json();
+        categories = await categoriesResponse.json();
     
         const galerie = document.querySelector(".gallery");
 
@@ -350,9 +351,6 @@ function chargeNewWork() {
     const ajoutPhotoContainer = document.querySelector('.ajout-photo-container');
     const photoUpload = document.getElementById('photo-upload')
 
-    console.log("Container trouvé :", ajoutPhotoContainer);
-    console.log("Input file trouvé :", photoUpload);
-
     document.querySelector('.upload-instructions').addEventListener('click', (event) => {
             event.preventDefault()
             photoUpload.click();
@@ -379,37 +377,92 @@ function chargeNewWork() {
     });      
 }
 chargeNewWork();
-
-async function categoriesNewWork(category){
+    
+function createCategoriesNewWork() {
     if(!isAuthenticated){
         return;
     }
 
-    const optionCategorie = document.createElement("option");
-    optionCategorie.value = category.name;
-    optionCategorie.textContent = category.name;
-    
     const selectCategory = document.getElementById('category');
-    selectCategory.appendChild(optionCategorie);
+    selectCategory.innerHTML = "";
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = '';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    selectCategory.appendChild(placeholder);
+
+    categories.forEach(category => {
+        const optionCategorie = document.createElement("option");
+        optionCategorie.value = category.id;
+        optionCategorie.textContent = category.name;
+        optionCategorie.dataset.id = category.id;
+        selectCategory.appendChild(optionCategorie);  
+    });
+}
+createCategoriesNewWork();
+
+function sendNewWork() {
+    if(!isAuthenticated){
+        return;
+    }
     
-    selectCategory.addEventListener('click', async(event) => {
-        // Code to delete all works goes here
+    const formNewWork = document.querySelector("#works-form");
+    const btnValider = document.querySelector("#save-changes-button");
+
+    btnValider.addEventListener('click', async (event) => {
         event.preventDefault();
-        if (event.tagert.value !== category.name) {
+
+        const payload = {
+            title: formNewWork.querySelector('#title').value,
+            category: formNewWork.querySelector('#category').value,
+            image: formNewWork.querySelector('#photo-upload').files[0],
+        };
+
+        if(!payload.title || !payload.category || !payload.image){
+            console.log("Champs vide")
+            const ancienMessageErreur = document.querySelector(".error-message");
+            if(ancienMessageErreur){
+                ancienMessageErreur.remove();
+            }
+
+            const messageErreur = document.createElement("span");
+            messageErreur.textContent = "Veuillez remplir tous les champs";
+            messageErreur.style.color = "red";
+            messageErreur.classList.add("error-message");
+            formNewWork.appendChild(messageErreur);
+
             return;
         }
-        try{
-            const response = await fetch(`http://localhost:5678/api/categories/${category.id}`);
-                if (!response.ok) {
-                    throw new Error('Erreur chargement categories');
-            }
-        const addedCategory = await response.json();
-        optionCategorie.textContent = addedCategory.name;
-        } catch (error) {
-            console.error("Erreur lors du chargement des catégories :", error);
+
+        const formData = new FormData();
+        formData.append("title", payload.title);
+        formData.append("category", payload.category);
+        formData.append("image", payload.image);
+
+        const newWorkDataResponse = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: formData
+        });
+        
+        const newWorkData = await newWorkDataResponse.json();
+        console.log(newWorkData);
+
+         if(newWorkDataResponse.ok){
+            // Alors: stocker le token dans le localStorage et rediriger vers la page principale
+            alert("Nouveau projet ajouté");
+            window.location.reload();
         }
     });
 
 }
+
+sendNewWork();
+
+
 
 

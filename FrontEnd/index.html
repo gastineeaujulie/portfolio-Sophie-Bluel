@@ -54,7 +54,7 @@
 						<button type="button" class="js-modal2-close"><i class="fa-solid fa-xmark"></i></button>
 					</div>
 					<h1 id="ajout-photo">Ajout Photo</h1>
-					<form class="add-works-form">
+					<form id="works-form" class="add-works-form">
 						<div class="ajout-photo-container">
 							<i class="fa-regular fa-image"></i>
 							<label for="photo-upload" class="custom-file-upload">
@@ -67,13 +67,9 @@
 						<input type="text" name="title" id="title" class="text-input">
 						<label for="category">Catégorie</label>
 						<select name="category" id="category" class="text-input">
-							<!-- <option value="" disabled selected></option>
-							<option value="1">Objets</option>
-							<option value="2">Appartements</option>
-							<option value="3">Hôtels & Restaurants</option> -->
 						</select>
 					</form>
-					<input type="submit" value="Valider" class="save-changes-button">
+					<input type="submit" value="Valider" class="save-changes-button" id="save-changes-button">
 				</div>
 			</aside>
 		<div class="gallery">
