@@ -1,5 +1,6 @@
 const isAuthenticated = localStorage.getItem("token");
 let categories;
+
 // Affichage des travaux dans la galerie
 async function showWorks() {
     try {
@@ -72,6 +73,7 @@ async function showWorks() {
 // Appel de la fonction pour afficher les travaux au chargement de la page
 await showWorks();
 
+// Création de la barre et du mode édition lorsque l'utilisateur est connecté
 function showEditMode() {
     if (!isAuthenticated) {
         return;
@@ -99,10 +101,12 @@ function showEditMode() {
     }
 }
 showEditMode();
-    
+
+// Création du bouton "modifier" en mode édition
 function activateEditBtn() {
     const filtersContainer = document.querySelector(".filters");
     if (isAuthenticated) {
+        // Désactive les filtres en mode édition
         filtersContainer.style.display = "none";
 
         const portfolioSection = document.querySelector("#portfolio");
@@ -123,6 +127,7 @@ function activateEditBtn() {
 }
 activateEditBtn();
 
+// Création de la galerie de suppression photos dans la modal
 function createWorkItemInModal(work) {
     if(!isAuthenticated){
         return;
@@ -145,8 +150,8 @@ function createWorkItemInModal(work) {
     imgContainer.appendChild(btn);
 
     btn.addEventListener('click', (event) => {
-        // Code to delete all works goes here
         event.preventDefault();
+        // Requête pour supprimer les travaux
         fetch(`http://localhost:5678/api/works/${work.id}`, {
             method: 'DELETE', 
             headers: {
@@ -158,13 +163,13 @@ function createWorkItemInModal(work) {
                 throw new Error('Erreur lors de la suppression des travaux');
             } else {
                 console.log('Suppression réussie');
-                // TODO: create function to delete work by id in html
                 imgContainer.remove();
             }
         });
     });
 }
 
+// Récuperation des photos dans l'API pour la modal1
 async function createWorksToDelete() {
     if(!isAuthenticated){
         return;
@@ -358,7 +363,9 @@ function chargeNewWork() {
         
     photoUpload.addEventListener('change', () => {
         const file = photoUpload.files[0];
-        if(!file) return;
+        if(!file){
+            return;
+        }
 
         const reader = new FileReader();
 
@@ -411,6 +418,16 @@ function sendNewWork() {
     const formNewWork = document.querySelector("#works-form");
     const btnValider = document.querySelector("#save-changes-button");
 
+    formNewWork.addEventListener("input", () => {
+        if(formNewWork.checkValidity()){
+            btnValider.disabled = false;
+            btnValider.classList.add('enabled');
+        } else {
+            btnValider.disabled = true;
+            btnValider.classList.remove('enabled');
+        }
+    });
+
     btnValider.addEventListener('click', async (event) => {
         event.preventDefault();
 
@@ -453,7 +470,7 @@ function sendNewWork() {
         console.log(newWorkData);
 
          if(newWorkDataResponse.ok){
-            // Alors: stocker le token dans le localStorage et rediriger vers la page principale
+            // stocke le token dans le localStorage et redirige vers la page principale
             alert("Nouveau projet ajouté");
             window.location.reload();
         }

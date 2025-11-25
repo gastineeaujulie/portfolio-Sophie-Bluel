@@ -460,6 +460,8 @@ section {
 	margin-bottom: 5px;
 }
 
+
+
 .upload-instructions {
 	border: none;
 	width: 173px;
@@ -479,14 +481,24 @@ section {
 	color: #444444;
 }
 
-.modal2-content .save-changes-button {
+#save-changes-button {
 	background-color: #A7A7A7;
 	font-size: 14px;
 	width: 237px;
 	height: 36px;
 	border: none;
-	margin-top: 40px ;
+	margin-top: 40px;
+	cursor: default;
 }
+
+#save-changes-button.enabled {
+	background-color: #1D6154;
+	cursor: pointer;
+}
+
+#save-changes-button.enabled:hover {
+	background-color: #0E2F28;
+}	
 
 .modal2-content .save-changes-button:hover {
 	cursor: pointer;
