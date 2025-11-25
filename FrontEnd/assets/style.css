@@ -110,7 +110,7 @@ nav ul {
 	list-style-type: none;
 }
 
-nav li {
+header li {
 	padding: 10px 25px;
 	font-size: 16px;
 	font-weight: 400;
@@ -147,20 +147,19 @@ h2{
 	color: #1D6154;
 }
 
-section {
-	margin: 140px 0
-}
 
 /** Introduction **/
 
 #introduction {
 	display: flex;
 	align-items: center;
-	
+	margin: 140px 0;	
 }
+
 #introduction figure {
 	flex: 1
 }
+
 #introduction img {
 	display: block;
 	margin: 0px;
@@ -222,12 +221,11 @@ section {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 15px;
 }
 
 .gallery img {
 	width: 100%;
-
 }
 
 .gallery figcaption {
@@ -460,8 +458,6 @@ section {
 	margin-bottom: 5px;
 }
 
-
-
 .upload-instructions {
 	border: none;
 	width: 173px;
@@ -509,7 +505,7 @@ section {
 
 #contact {
 	width: 50%;
-	margin: auto;
+	margin: 80px auto;
 	width: 379px;
 }
 #contact > * {

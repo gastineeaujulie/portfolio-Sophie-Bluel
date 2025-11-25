@@ -174,17 +174,19 @@ async function createWorksToDelete() {
     if(!isAuthenticated){
         return;
     }
+    // Rêquete GET, récupere les travaux dans l'API et attends la réponse
     const worksResponse = await fetch('http://localhost:5678/api/works');
     if (!worksResponse.ok) {
         throw new Error(`Erreur API`);
     }
     const works = await worksResponse.json();
-
+    // Appel de la fonction createWorkItemInModal
     works.forEach((work) => {
         createWorkItemInModal(work)
     });
 }
 
+// Création de la modal1
 function setupModal() {
     if (!isAuthenticated) {
         return;
@@ -222,10 +224,12 @@ function setupModal() {
         modal1 = null;
     }
 
+    // Empêche de fermer la modal en cliquant n'importe ou
     const stopPropagation = function (event) {
         event.stopPropagation()
     }
 
+    // Permet de faire le focus sur chaque élement cliquable
     const focusInModal = function (event) {
         event.preventDefault()
         let index = focusables.findIndex(f => f === document.activeElement);
@@ -243,6 +247,7 @@ function setupModal() {
     focusables[index].focus()
     }
 
+    // Ouvrir la modal, bouton "modifier"
     document.querySelectorAll('.js-modal').forEach(a => {
         createWorksToDelete();
         a.addEventListener('click', openModal)
@@ -260,7 +265,7 @@ function setupModal() {
 setupModal();
 
 
-
+// Création de la modal2
 function modal2Setup() {
     if (!isAuthenticated) {
         return;
@@ -306,6 +311,7 @@ function modal2Setup() {
             event.stopPropagation()
         }
 
+        // Retour modal1 avec l'icone fleche
         const backToModal1 = function (event) {
             event.preventDefault()
             modal2.style.display = "none";
@@ -352,6 +358,7 @@ function modal2Setup() {
 }
 modal2Setup();
 
+// Création preview nouveaux travaux
 function chargeNewWork() {
     const ajoutPhotoContainer = document.querySelector('.ajout-photo-container');
     const photoUpload = document.getElementById('photo-upload')
@@ -380,11 +387,13 @@ function chargeNewWork() {
             afficherImg.src = event.target.result;
             ajoutPhotoContainer.classList.add('has-image');
         }
+        // Lire le fichier pour afficher l'image
         reader.readAsDataURL(file);
     });      
 }
 chargeNewWork();
-    
+
+// Récuperation des catégories via l'API et création des options dans le select 
 function createCategoriesNewWork() {
     if(!isAuthenticated){
         return;
@@ -410,6 +419,8 @@ function createCategoriesNewWork() {
 }
 createCategoriesNewWork();
 
+
+// Gestion du btn "Valider" et envois de nouveaux travaux
 function sendNewWork() {
     if(!isAuthenticated){
         return;
@@ -418,6 +429,7 @@ function sendNewWork() {
     const formNewWork = document.querySelector("#works-form");
     const btnValider = document.querySelector("#save-changes-button");
 
+    // Gestion bouton "valider" en fonction du form
     formNewWork.addEventListener("input", () => {
         if(formNewWork.checkValidity()){
             btnValider.disabled = false;
@@ -453,7 +465,9 @@ function sendNewWork() {
             return;
         }
 
+        // Objet formData, pour creer un formulaire pour requête HTTP
         const formData = new FormData();
+        // Ajout des champs
         formData.append("title", payload.title);
         formData.append("category", payload.category);
         formData.append("image", payload.image);
@@ -470,7 +484,7 @@ function sendNewWork() {
         console.log(newWorkData);
 
          if(newWorkDataResponse.ok){
-            // stocke le token dans le localStorage et redirige vers la page principale
+            // Redirige vers la page principale et affiche un message popup
             alert("Nouveau projet ajouté");
             window.location.reload();
         }
