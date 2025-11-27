@@ -40,10 +40,15 @@ function ajoutListenerConnexion() {
             localStorage.setItem("token", userData.token);
             window.location.href = "index.html";
         }else{
+            const ancienMessageErreur = document.querySelector(".error-message");
+            if(ancienMessageErreur){
+                ancienMessageErreur.remove();
+            }
             // Sinon afficher un message d'erreur
             const messageErreur = document.createElement("span");
             messageErreur.textContent = "Erreur dans l'email ou le mot de passe";
             messageErreur.style.color = "red";
+            messageErreur.classList.add("error-message");
             formulaireLogIn.appendChild(messageErreur);
             
             console.log("Erreur dans la connexion");

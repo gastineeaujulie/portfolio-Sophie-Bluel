@@ -488,6 +488,7 @@ function sendNewWork() {
             // Redirige vers la page principale et affiche un message popup
             alert("Nouveau projet ajouté");
             showWorks();
+            
         }
     });
 
