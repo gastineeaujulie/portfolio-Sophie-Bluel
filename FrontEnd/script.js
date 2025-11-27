@@ -487,6 +487,8 @@ function sendNewWork() {
             // Redirige vers la page principale et affiche un message popup
             alert("Nouveau projet ajouté");
             fetchAndShowWorks();
+            // Refresh modal1 pour afficher le nouveau projet
+            createWorksToDelete().reload;
             //Reset form
             formNewWork.querySelector('#category').value = "";
             formNewWork.querySelector('#title').value = "";
