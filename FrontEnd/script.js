@@ -131,6 +131,8 @@ function createWorkItemInModal(work) {
     if(!isAuthenticated){
         return;
     }
+    const galleryModal = document.querySelector('.gallery-modal');
+    // galleryModal.innerHTML = "";
 
     const imgContainer = document.createElement("div");
     const image = document.createElement("img");
@@ -143,7 +145,7 @@ function createWorkItemInModal(work) {
     btn.classList.add("delete-button");
     btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
-    const galleryModal = document.querySelector('.gallery-modal');
+    
     galleryModal.appendChild(imgContainer);
     imgContainer.appendChild(image);
     imgContainer.appendChild(btn);
@@ -199,7 +201,7 @@ function setupModal() {
     
     const openModal = function (event){
         event.preventDefault()
-        modal1= document.querySelector(event.target.getAttribute('href'));
+        modal1 = document.querySelector(event.target.getAttribute('href'));
         modal1.style.display = null;
         modal1.removeAttribute('aria-hidden');
         modal1.setAttribute('aria-modal', 'true');
@@ -488,7 +490,7 @@ function sendNewWork() {
             alert("Nouveau projet ajouté");
             fetchAndShowWorks();
             // Refresh modal1 pour afficher le nouveau projet
-            createWorksToDelete().reload;
+            createWorkItemInModal(newWorkData);
             //Reset form
             formNewWork.querySelector('#category').value = "";
             formNewWork.querySelector('#title').value = "";
