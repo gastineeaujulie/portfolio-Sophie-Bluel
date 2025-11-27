@@ -1,78 +1,81 @@
 const isAuthenticated = localStorage.getItem("token");
 let categories;
+let works;
+
+function displayWorks(worksToDisplay) {
+    const galerie = document.querySelector(".gallery");
+    galerie.innerHTML = "";
+    worksToDisplay.forEach((work) => {
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const caption = document.createElement("figcaption");
+    
+        img.src = work.imageUrl;
+        img.alt = work.title;
+        caption.textContent = work.title;
+
+        figure.appendChild(img);
+        figure.appendChild(caption);
+        galerie.appendChild(figure);
+    });
+}
 
 // Affichage des travaux dans la galerie
-async function showWorks() {
+async function fetchAndShowWorks() {
     try {
         const worksResponse = await fetch('http://localhost:5678/api/works');
         const categoriesResponse = await fetch('http://localhost:5678/api/categories');
         if (!worksResponse.ok || !categoriesResponse.ok) {
             throw new Error(`Erreur API`);
         }
-        const works = await worksResponse.json();
-        categories = await categoriesResponse.json();
-    
-        const galerie = document.querySelector(".gallery");
-
-        function displayWorks(worksToDisplay) {
-            galerie.innerHTML = "";
-            worksToDisplay.forEach((work) => {
-                const figure = document.createElement("figure");
-                const img = document.createElement("img");
-                const caption = document.createElement("figcaption");
-            
-                img.src = work.imageUrl;
-                img.alt = work.title;
-                caption.textContent = work.title;
-
-                figure.appendChild(img);
-                figure.appendChild(caption);
-                galerie.appendChild(figure);
-            });
-        }   
+        works = await worksResponse.json();
+        categories = await categoriesResponse.json();     
         displayWorks(works);
-
-        const filtersContainer = document.createElement("div");
-        filtersContainer.classList.add("filters");
-        const divGallery = document.querySelector(".gallery");
-        const portfolioSection = divGallery.parentNode;
-        portfolioSection.insertBefore(filtersContainer, divGallery);
-
-        const boutonTous = document.createElement("button");
-        boutonTous.textContent = "Tous";
-        boutonTous.classList.add("filtre-actif");
-        filtersContainer.appendChild(boutonTous);
-
-        boutonTous.addEventListener("click", () => {
-            const allButtons = filtersContainer.querySelectorAll("button");
-            allButtons.forEach(btn => btn.classList.remove("filtre-actif"));
-            boutonTous.classList.add("filtre-actif");
-            displayWorks(works);
-        });
-
-        categories.forEach((category) => {
-            const button = document.createElement("button");
-            button.textContent = category.name;
-            button.dataset.id = category.id;
-            filtersContainer.appendChild(button);
-
-            button.addEventListener("click",() => {
-                const allButtons = filtersContainer.querySelectorAll("button");
-                allButtons.forEach(btn => btn.classList.remove("filtre-actif"));
-                button.classList.add("filtre-actif");
-
-                //Filtrer les travaux en fonction de la catégorie sélectionnée
-                const worksFilters = works.filter(work => work.categoryId === category.id);
-                displayWorks(worksFilters);
-            });
-        });
     } catch (error) {
         console.error("Erreur lors du chargement des travaux :", error);
     }  
 }
-// Appel de la fonction pour afficher les travaux au chargement de la page
-await showWorks();
 
+
+// Creation des filtres par categories de la gallerie
+function createCategoryFilters(){
+    const filtersContainer = document.createElement("div");
+    filtersContainer.classList.add("filters");
+    const divGallery = document.querySelector(".gallery");
+    const portfolioSection = divGallery.parentNode;
+    portfolioSection.insertBefore(filtersContainer, divGallery);
+
+    const boutonTous = document.createElement("button");
+    boutonTous.textContent = "Tous";
+    boutonTous.classList.add("filtre-actif");
+    filtersContainer.appendChild(boutonTous);
+
+    boutonTous.addEventListener("click", () => {
+        const allButtons = filtersContainer.querySelectorAll("button");
+        allButtons.forEach(btn => btn.classList.remove("filtre-actif"));
+        boutonTous.classList.add("filtre-actif");
+        displayWorks(works);
+    });
+
+    categories.forEach((category) => {
+        const button = document.createElement("button");
+        button.textContent = category.name;
+        button.dataset.id = category.id;
+        filtersContainer.appendChild(button);
+
+        button.addEventListener("click",() => {
+            const allButtons = filtersContainer.querySelectorAll("button");
+            allButtons.forEach(btn => btn.classList.remove("filtre-actif"));
+            button.classList.add("filtre-actif");
+
+            //Filtrer les travaux en fonction de la catégorie sélectionnée
+            const worksFilters = works.filter(work => work.categoryId === category.id);
+            displayWorks(worksFilters);
+        });
+    });
+}       
+
+        
 // Création de la barre et du mode édition lorsque l'utilisateur est connecté
 function showEditMode() {
     if (!isAuthenticated) {
@@ -100,32 +103,28 @@ function showEditMode() {
         });
     }
 }
-showEditMode();
+
 
 // Création du bouton "modifier" en mode édition
 function activateEditBtn() {
-    const filtersContainer = document.querySelector(".filters");
-    if (isAuthenticated) {
-        // Désactive les filtres en mode édition
-        filtersContainer.style.display = "none";
+    if (!isAuthenticated) return;
 
-        const portfolioSection = document.querySelector("#portfolio");
-        const titre = portfolioSection.querySelector("h2");
-        const portfolioHeader = document.createElement("div");
-        portfolioHeader.classList.add("portfolio-header");
-        portfolioSection.insertBefore(portfolioHeader, titre);
-        portfolioHeader.appendChild(titre);
-        const buttonModifier = document.createElement("button");
-        buttonModifier.innerHTML = '<a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a>';
-        buttonModifier.classList.add("edit-btn");
-        portfolioHeader.appendChild(buttonModifier);
+    const filtersContainer = document.querySelector(".filters");    
+    // Désactive les filtres en mode édition
+    filtersContainer.style.display = "none";
 
-    } else {
-        filtersContainer.style.display = "flex";
-        buttonModifier?.remove(); 
-    }
+    const portfolioSection = document.querySelector("#portfolio");
+    const titre = portfolioSection.querySelector("h2");
+    const portfolioHeader = document.createElement("div");
+    portfolioHeader.classList.add("portfolio-header");
+    portfolioSection.insertBefore(portfolioHeader, titre);
+    portfolioHeader.appendChild(titre);
+    const buttonModifier = document.createElement("button");
+    buttonModifier.innerHTML = '<a href="#modal1" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> modifier</a>';
+    buttonModifier.classList.add("edit-btn");
+    portfolioHeader.appendChild(buttonModifier);
 }
-activateEditBtn();
+
 
 // Création de la galerie de suppression photos dans la modal
 function createWorkItemInModal(work) {
@@ -164,7 +163,7 @@ function createWorkItemInModal(work) {
             } else {
                 console.log('Suppression réussie');
                 imgContainer.remove();
-                showWorks();
+                fetchAndShowWorks()
             }
         });
     });
@@ -263,7 +262,7 @@ function setupModal() {
         }
     })    
 }
-setupModal();
+
 
 
 // Création de la modal2
@@ -357,7 +356,7 @@ function modal2Setup() {
             }
         })
 }
-modal2Setup();
+
 
 // Création preview nouveaux travaux
 function chargeNewWork() {
@@ -392,7 +391,7 @@ function chargeNewWork() {
         reader.readAsDataURL(file);
     });      
 }
-chargeNewWork();
+
 
 // Récuperation des catégories via l'API et création des options dans le select 
 function createCategoriesNewWork() {
@@ -418,7 +417,7 @@ function createCategoriesNewWork() {
         selectCategory.appendChild(optionCategorie);  
     });
 }
-createCategoriesNewWork();
+
 
 
 // Gestion du btn "Valider" et envois de nouveaux travaux
@@ -487,15 +486,35 @@ function sendNewWork() {
          if(newWorkDataResponse.ok){
             // Redirige vers la page principale et affiche un message popup
             alert("Nouveau projet ajouté");
-            showWorks();
-            
+            fetchAndShowWorks();
+            //Reset form
+            formNewWork.querySelector('#category').value = "";
+            formNewWork.querySelector('#title').value = "";
+            // Reset preview
+            const previewImg = document.querySelector('.ajout-photo-container img.preview');
+            if (previewImg) {
+                previewImg.remove();
+            }
+            document.querySelector('.ajout-photo-container').classList.remove('has-image');
         }
     });
-
 }
 
-sendNewWork();
 
+async function initPage(){
+    // Appel de la fonction pour afficher les travaux au chargement de la page
+    await fetchAndShowWorks();
+    createCategoryFilters();
+    showEditMode();
+    activateEditBtn();
+    setupModal();
+    modal2Setup();
+    chargeNewWork();
+    createCategoriesNewWork();
+    sendNewWork();
+}
+
+initPage();
 
 
 
