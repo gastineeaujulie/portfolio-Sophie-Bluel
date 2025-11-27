@@ -164,6 +164,7 @@ function createWorkItemInModal(work) {
             } else {
                 console.log('Suppression réussie');
                 imgContainer.remove();
+                showWorks();
             }
         });
     });
@@ -486,7 +487,7 @@ function sendNewWork() {
          if(newWorkDataResponse.ok){
             // Redirige vers la page principale et affiche un message popup
             alert("Nouveau projet ajouté");
-            window.location.reload();
+            showWorks();
         }
     });
 

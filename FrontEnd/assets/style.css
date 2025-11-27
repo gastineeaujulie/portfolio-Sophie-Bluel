@@ -319,6 +319,7 @@ h2{
 	font-size: 18px;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 }
 
 .modal-content button:active {
